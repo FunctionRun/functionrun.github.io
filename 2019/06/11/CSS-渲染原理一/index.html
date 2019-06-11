@@ -88,7 +88,7 @@
 <meta property="og:description" content="如下代码 浏览器执行了handleResize、handleClick分别干了什么事情123456789101112131415161718&amp;lt;style&amp;gt;    ele3 &amp;#123;        will-change: transform;        translation: transform 0.2s;    &amp;#125;&amp;lt;style&amp;gt;window.addEv">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://functionrun.github.io/images/render-tree-construction.png">
-<meta property="og:updated_time" content="2019-06-11T15:31:52.733Z">
+<meta property="og:updated_time" content="2019-06-11T15:38:33.054Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS 渲染原理一">
 <meta name="twitter:description" content="如下代码 浏览器执行了handleResize、handleClick分别干了什么事情123456789101112131415161718&amp;lt;style&amp;gt;    ele3 &amp;#123;        will-change: transform;        translation: transform 0.2s;    &amp;#125;&amp;lt;style&amp;gt;window.addEv">
@@ -401,7 +401,7 @@
 <p>JS</p>
 <ul>
 <li>避免频繁操作样式, 一次性重写style, 通过把样式写在class中, 一次性更改class属性</li>
-<li>避免频繁操作DOM, 创建一个</li>
+<li>避免频繁操作DOM, 创建一个documentFragment, 在其上应用所有DOM操作, 之后再把dF添加到文档中</li>
 <li>先将元素设置display: none, 操作结束后再显示出来: display: none的元素进行DOM操作不会引发回流和重绘</li>
 <li>避免频繁读取会引起回流/重绘的属性, 如需多次使用, 使用变量缓存起来</li>
 <li>复杂动画的元素使用绝对定位, 使其脱离文档流. 避免引起父元素和后续元素的频繁回流</li>
