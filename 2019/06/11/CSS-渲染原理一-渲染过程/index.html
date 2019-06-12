@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="如下代码 浏览器执行了handleResize、handleClick分别干了什么事情123456789101112131415161718&amp;lt;style&amp;gt;    ele3 &amp;#123;        will-change: transform;        translation: transform 0.2s;    &amp;#125;&amp;lt;style&amp;gt;window.addEv">
+<meta name="description" content="如下代码 浏览器执行了handleResize、handleClick分别干了什么事情123456789101112131415161718&amp;lt;style&amp;gt;    ele3 &amp;#123;        // will-change: transform; 和 translateZ(0) 效果雷同        translation: transform 0.2s;    &amp;#125;">
 <meta name="keywords" content="Css优化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CSS 渲染原理一">
-<meta property="og:url" content="https://functionrun.github.io/2019/06/11/CSS-渲染原理一/index.html">
+<meta property="og:title" content="CSS 渲染原理一渲染过程">
+<meta property="og:url" content="https://functionrun.github.io/2019/06/11/CSS-渲染原理一-渲染过程/index.html">
 <meta property="og:site_name" content="一步一步向前走">
-<meta property="og:description" content="如下代码 浏览器执行了handleResize、handleClick分别干了什么事情123456789101112131415161718&amp;lt;style&amp;gt;    ele3 &amp;#123;        will-change: transform;        translation: transform 0.2s;    &amp;#125;&amp;lt;style&amp;gt;window.addEv">
+<meta property="og:description" content="如下代码 浏览器执行了handleResize、handleClick分别干了什么事情123456789101112131415161718&amp;lt;style&amp;gt;    ele3 &amp;#123;        // will-change: transform; 和 translateZ(0) 效果雷同        translation: transform 0.2s;    &amp;#125;">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://functionrun.github.io/images/render-tree-construction.png">
-<meta property="og:updated_time" content="2019-06-11T15:38:33.054Z">
+<meta property="og:updated_time" content="2019-06-12T06:55:58.289Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CSS 渲染原理一">
-<meta name="twitter:description" content="如下代码 浏览器执行了handleResize、handleClick分别干了什么事情123456789101112131415161718&amp;lt;style&amp;gt;    ele3 &amp;#123;        will-change: transform;        translation: transform 0.2s;    &amp;#125;&amp;lt;style&amp;gt;window.addEv">
+<meta name="twitter:title" content="CSS 渲染原理一渲染过程">
+<meta name="twitter:description" content="如下代码 浏览器执行了handleResize、handleClick分别干了什么事情123456789101112131415161718&amp;lt;style&amp;gt;    ele3 &amp;#123;        // will-change: transform; 和 translateZ(0) 效果雷同        translation: transform 0.2s;    &amp;#125;">
 <meta name="twitter:image" content="https://functionrun.github.io/images/render-tree-construction.png">
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="https://functionrun.github.io/2019/06/11/CSS-渲染原理一/">
+  <link rel="canonical" href="https://functionrun.github.io/2019/06/11/CSS-渲染原理一-渲染过程/">
 
 
 
 
 
-  <title>CSS 渲染原理一 | 一步一步向前走</title>
+  <title>CSS 渲染原理一渲染过程 | 一步一步向前走</title>
   
 
 
@@ -255,7 +255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://functionrun.github.io/2019/06/11/CSS-渲染原理一/">
+    <link itemprop="mainEntityOfPage" href="https://functionrun.github.io/2019/06/11/CSS-渲染原理一-渲染过程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="FunctionRun">
@@ -272,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">CSS 渲染原理一</h1>
+          <h1 class="post-title" itemprop="name headline">CSS 渲染原理一渲染过程</h1>
         
 
         <div class="post-meta">
@@ -323,7 +323,7 @@
 
       
         <p>如下代码</p>
-<h5 id="浏览器执行了handleResize、handleClick分别干了什么事情"><a href="#浏览器执行了handleResize、handleClick分别干了什么事情" class="headerlink" title="浏览器执行了handleResize、handleClick分别干了什么事情"></a>浏览器执行了handleResize、handleClick分别干了什么事情</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">    ele3 &#123;</span><br><span class="line">        will-change: transform;</span><br><span class="line">        translation: transform 0.2s;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">window.addEventListener(&apos;resize&apos;, handleResize)</span><br><span class="line">window.addEventListener(&apos;click&apos;, handleClick)</span><br><span class="line">function handleResize() &#123;</span><br><span class="line">    ele1.style.width = xxx;</span><br><span class="line">    ele1.style.height = yyy;</span><br><span class="line"></span><br><span class="line">    ele2.style.color = &apos;#fff&apos;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function handleClick() &#123;</span><br><span class="line">    ele3.style.transform = &apos;translate...&apos;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="浏览器执行了handleResize、handleClick分别干了什么事情"><a href="#浏览器执行了handleResize、handleClick分别干了什么事情" class="headerlink" title="浏览器执行了handleResize、handleClick分别干了什么事情"></a>浏览器执行了handleResize、handleClick分别干了什么事情</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">    ele3 &#123;</span><br><span class="line">        // will-change: transform; 和 translateZ(0) 效果雷同</span><br><span class="line">        translation: transform 0.2s;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">window.addEventListener(&apos;resize&apos;, handleResize)</span><br><span class="line">window.addEventListener(&apos;click&apos;, handleClick)</span><br><span class="line">function handleResize() &#123;</span><br><span class="line">    ele1.style.width = xxx;</span><br><span class="line">    ele1.style.height = yyy;</span><br><span class="line"></span><br><span class="line">    ele2.style.color = &apos;#fff&apos;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function handleClick() &#123;</span><br><span class="line">    ele3.style.transform = &apos;translateX(1000px)&apos;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="浏览器渲染文档的步骤"><a href="#浏览器渲染文档的步骤" class="headerlink" title="浏览器渲染文档的步骤"></a>浏览器渲染文档的步骤</h2><blockquote>
 <p><a href="https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-tree-construction?hl=zh-cn" target="_blank" rel="noopener">https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-tree-construction?hl=zh-cn</a></p>
@@ -333,7 +333,8 @@
 <li>处理CSS标记并构建CSSOM树</li>
 <li>合并DOM&amp;CSSOM 为一个渲染树RenderTree, display: none 的元素并不会出现在RenderTree</li>
 <li>根据RenderTree, 布局(计算节点在页面上的大小和位置)</li>
-<li>将节点绘制到屏幕<br><img src="/images/render-tree-construction.png" alt></li>
+<li>将节点绘制到屏幕 </li>
+<li>渲染层合并(见下篇文章)<br><img src="/images/render-tree-construction.png" alt></li>
 </ol>
 <p>回到上述问题, resize时浏览器干了啥? </p>
 <ol>
@@ -346,9 +347,12 @@
 <p><a href="https://developers.google.com/web/fundamentals/design-and-ux/animations/animations-and-performance" target="_blank" rel="noopener">https://developers.google.com/web/fundamentals/design-and-ux/animations/animations-and-performance</a></p>
 </blockquote>
 <ol>
-<li>will-change: transform; 会告诉浏览器在做更新前就使用最合适的优化, 进行高度优化</li>
-<li>transform: 不会发生几何变化, 或绘制. 因此可以在GPU的帮助下有compositor(合成器线程)执行操作</li>
+<li>css translation动画, 会将transform || opacity 的元素提升一个复合层.</li>
+<li>will-change: transform || opacity; 会告诉浏览器在做更新前就使用最合适的优化, 进行高度优化. 也会将元素强行提升至一个复合层.</li>
+<li>使用js做动画时, js必须在动画的每一帧计算元素的状态, 发送给GPU, 不会将元素提升至一个复合层, 想让元素提升至复合层, 必须使用translateZ或者will-change: transform, opacity;</li>
 </ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">// 方式一: CSS动画: 设置以下CSS样式, hover时动画时, 查看Chrome Console 的Layers, 会有两个layer层;</span><br><span class="line">&lt;div class=&apos;bg-change&apos;&gt;&lt;/div&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">    .bg-change &#123;</span><br><span class="line">        width: 100px;</span><br><span class="line">        height: 100px;</span><br><span class="line">        background: red;</span><br><span class="line">        translation: transform 20s;</span><br><span class="line">    &#125;</span><br><span class="line">    .bg-change:hover &#123;</span><br><span class="line">        transform: translateX(1000px);</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br><span class="line">// 方式二 和 方式一样都会产生两个layer</span><br><span class="line">&lt;div class=&quot;bg-change-2&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">    .bg-change-2 &#123;</span><br><span class="line">        width: 100px;</span><br><span class="line">        height: 100px;</span><br><span class="line">        background: red;</span><br><span class="line">        /* transition: transform 20s; */</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    const dom = document.body.querySelector(&apos;.bg-change-2&apos;);</span><br><span class="line">    dom.onclick = function() &#123;</span><br><span class="line">        this.style.transform = &apos;translateX(1000px)&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"> </span><br><span class="line">// 方式三: 通过js修改样式, requestAnimationFrame 过程中, 如果不加translateZ(0) 只会有一个Layer, translateZ(0) 才能强制的将元素提升一个复合层;</span><br><span class="line">&lt;div class=&quot;bg-change&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">    .bg-change &#123;</span><br><span class="line">        width: 100px;</span><br><span class="line">        height: 100px;</span><br><span class="line">        background: red;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    var bg = document.querySelector(&apos;.bg-change&apos;);</span><br><span class="line">    var distance = 0;</span><br><span class="line">    requestAnimationFrame(function animate()&#123;</span><br><span class="line">        bg.style.transform = &apos;translateX(&apos; + ++distance + &apos;px) translateZ(0)&apos;;</span><br><span class="line">        requestAnimationFrame(animate);</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
 <p>先了解下浏览器的回流和重绘</p>
 <ol>
 <li>浏览器使用流式布局模型(Flow Based Layout)</li>
@@ -446,6 +450,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/06/12/CSS-渲染原理二-渲染层合并 Composite/" rel="prev" title="CSS-渲染原理二 渲染层合并 Composite">
+                CSS-渲染原理二 渲染层合并 Composite <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -523,7 +531,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
