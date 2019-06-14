@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="JS,">
 
 
 
@@ -79,16 +79,21 @@
 
 
 
-<meta name="description" content="记录自己成为妈妈后的酸甜苦辣生活">
-<meta property="og:type" content="website">
-<meta property="og:title" content="一步一步向前走">
-<meta property="og:url" content="https://functionrun.github.io/tags/Css优化/index.html">
+<meta name="description" content="浏览器处理script &amp;lt;script src=&amp;quot;a.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; 浏览器会立即加载并执行脚本, 也就是在渲染该script标签之下的文档元素前, 就会加载并之下. &amp;lt;script src=&amp;quot;b.js&amp;quot; defer&amp;gt;&amp;lt;/script&amp;gt; defer 加载后续文档元素的过程和加载b.js 并行进行(">
+<meta name="keywords" content="JS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="script标签defer vs async">
+<meta property="og:url" content="https://functionrun.github.io/2019/06/14/script标签defer-vs-async/index.html">
 <meta property="og:site_name" content="一步一步向前走">
-<meta property="og:description" content="记录自己成为妈妈后的酸甜苦辣生活">
+<meta property="og:description" content="浏览器处理script &amp;lt;script src=&amp;quot;a.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; 浏览器会立即加载并执行脚本, 也就是在渲染该script标签之下的文档元素前, 就会加载并之下. &amp;lt;script src=&amp;quot;b.js&amp;quot; defer&amp;gt;&amp;lt;/script&amp;gt; defer 加载后续文档元素的过程和加载b.js 并行进行(">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://functionrun.github.io/images/js-defer-async.png">
+<meta property="og:image" content="https://functionrun.github.io/images/js-defer-async-2.jpeg">
+<meta property="og:updated_time" content="2019-06-14T11:48:48.863Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一步一步向前走">
-<meta name="twitter:description" content="记录自己成为妈妈后的酸甜苦辣生活">
+<meta name="twitter:title" content="script标签defer vs async">
+<meta name="twitter:description" content="浏览器处理script &amp;lt;script src=&amp;quot;a.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; 浏览器会立即加载并执行脚本, 也就是在渲染该script标签之下的文档元素前, 就会加载并之下. &amp;lt;script src=&amp;quot;b.js&amp;quot; defer&amp;gt;&amp;lt;/script&amp;gt; defer 加载后续文档元素的过程和加载b.js 并行进行(">
+<meta name="twitter:image" content="https://functionrun.github.io/images/js-defer-async.png">
 
 
 
@@ -118,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="https://functionrun.github.io/tags/Css优化/">
+  <link rel="canonical" href="https://functionrun.github.io/2019/06/14/script标签defer-vs-async/">
 
 
 
 
 
-  <title>标签: Css优化 | 一步一步向前走</title>
+  <title>script标签defer vs async | 一步一步向前走</title>
   
 
 
@@ -143,7 +148,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -237,52 +242,158 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Css优化<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://functionrun.github.io/2019/06/14/script标签defer-vs-async/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FunctionRun">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/me.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一步一步向前走">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/06/11/CSS-渲染原理一-渲染过程/" itemprop="url">
-              
-                <span itemprop="name">CSS 渲染原理一渲染过程</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">script标签defer vs async</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-11T13:53:31+08:00" content="2019-06-11">
-          06-11
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-14T19:26:32+08:00">
+                2019-06-14
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/images/js-defer-async.png" alt></p>
+<h2 id="浏览器处理script"><a href="#浏览器处理script" class="headerlink" title="浏览器处理script"></a>浏览器处理script</h2><ol>
+<li><code>&lt;script src=&quot;a.js&quot;&gt;&lt;/script&gt;</code> 浏览器会立即加载并执行脚本, 也就是在渲染该script标签之下的文档元素前, 就会加载并之下.</li>
+<li><code>&lt;script src=&quot;b.js&quot; defer&gt;&lt;/script&gt;</code> defer 加载后续文档元素的过程和加载b.js 并行进行(异步), 但是b.js的之下会在所有元素解析完成之后, DOMContentLoaded 事件触发之前完成.</li>
+<li><code>&lt;script src=&quot;c.js&quot; async&gt;&lt;/script&gt;</code> async 加载和渲染后续文档元素的过程将和c.js的加载和执行并行进行(异步)</li>
+</ol>
+<p><img src="/images/js-defer-async-2.jpeg" alt></p>
+<ol>
+<li>相同点: defer&amp;async 在网络下载的过程时一样的, 都是异步的(和HTML解析).</li>
+<li>执行时间不同: 下载到执行的时间不同</li>
+<li>执行顺序不同: defer会按照加载顺序执行, async的执行会乱序</li>
+</ol>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/13/CSS元素居中/" rel="next" title="CSS元素居中">
+                <i class="fa fa-chevron-left"></i> CSS元素居中
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -290,6 +401,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -310,8 +425,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -328,7 +452,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -380,6 +504,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器处理script"><span class="nav-number">1.</span> <span class="nav-text">浏览器处理script</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -520,6 +660,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
