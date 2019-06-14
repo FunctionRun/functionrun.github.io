@@ -349,9 +349,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">    .parent &#123;</span><br><span class="line">        position: relative;</span><br><span class="line">        width: 200px;</span><br><span class="line">        height: 200px;</span><br><span class="line">        background-color: #e0ffee;</span><br><span class="line">    &#125;</span><br><span class="line">    .child &#123;</span><br><span class="line">        position: absolute;</span><br><span class="line">        width: 100px;</span><br><span class="line">        height: 100px;</span><br><span class="line">        top: 50%;</span><br><span class="line">        margin-top: -50px;</span><br><span class="line">        left: 50%;</span><br><span class="line">        margin-left: -50px;</span><br><span class="line">        background: #2545c4;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;child&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>同上.绝对定位&amp;translate 子元素有宽度、高度</li>
+<li>同上.绝对定位&amp;translate 子元素不需要有宽度、高度</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">    .parent-translate &#123;</span><br><span class="line">        position: relative;</span><br><span class="line">        width: 200px;</span><br><span class="line">        height: 200px;</span><br><span class="line">        background-color: #e0ffee;</span><br><span class="line">    &#125;</span><br><span class="line">    .child-translate &#123;</span><br><span class="line">        position: absolute;</span><br><span class="line">        width: 100px;</span><br><span class="line">        height: 100px;</span><br><span class="line">        background: #2545c4;</span><br><span class="line">        left: 50%;</span><br><span class="line">        top: 50%;</span><br><span class="line">        transform: translateX(-50%) translateY(-50%);</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;div class=&quot;parent-translate&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;child-translate&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">    .parent-translate &#123;</span><br><span class="line">        position: relative;</span><br><span class="line">        width: 200px;</span><br><span class="line">        height: 200px;</span><br><span class="line">        background-color: #e0ffee;</span><br><span class="line">    &#125;</span><br><span class="line">    .child-translate &#123;</span><br><span class="line">        position: absolute;</span><br><span class="line">        background: #2545c4;</span><br><span class="line">        left: 50%;</span><br><span class="line">        top: 50%;</span><br><span class="line">        padding: 20px;</span><br><span class="line">        transform: translateX(-50%) translateY(-50%);</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;div class=&quot;parent-translate&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;child-translate&quot;&gt;</span><br><span class="line">        哈哈这里是一个子元素哦哦哦哦</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>div水平垂直居中: 负元素dispaly: flex; juestify-content: center; align-item: center;</li>
@@ -484,10 +484,45 @@
 <li>will-change: transform, opacity; 两者设置其一就会形成 一个新的Layer</li>
 <li>translation: transform || opacity || translate3d || filter || backdrop-filter; 需要结合对transform 值的改变才会形成.</li>
 <li>video, canvas, iframe; 直接是一个新的Layer;</li>
+<li>perspective</li>
+<li>元素A有一个z-index 比自己小的元素B, B是一个合成层(即该元素在复合层上渲染), 则A会提升位合成层(composite隐式合成);</li>
 </ol>
 <h2 id="渲染层合并-Composite"><a href="#渲染层合并-Composite" class="headerlink" title="渲染层合并 Composite"></a>渲染层合并 Composite</h2><blockquote>
-<p><a href="http://taobaofed.org/blog/2016/04/25/performance-composite/" target="_blank" rel="noopener">http://taobaofed.org/blog/2016/04/25/performance-composite/</a><br><a href="http://jartto.wang/2017/08/28/how-to-optimize-marker-of-AMap/" target="_blank" rel="noopener">http://jartto.wang/2017/08/28/how-to-optimize-marker-of-AMap/</a></p>
+<p><a href="http://taobaofed.org/blog/2016/04/25/performance-composite/" target="_blank" rel="noopener">http://taobaofed.org/blog/2016/04/25/performance-composite/</a><br><a href="http://jartto.wang/2017/08/28/how-to-optimize-marker-of-AMap/" target="_blank" rel="noopener">http://jartto.wang/2017/08/28/how-to-optimize-marker-of-AMap/</a><br><a href="https://www.cnblogs.com/feng9exe/p/10907959.html" target="_blank" rel="noopener">https://www.cnblogs.com/feng9exe/p/10907959.html</a></p>
 </blockquote>
+<ol>
+<li>DOM树中每个节点都会对应一个LayoutObject, 处于相同坐标空间的LayoutObject会形成一个RenderLayers(渲染层);</li>
+<li>RenderLayers保证页面元素以正确的顺序合成, 此时就会出现层合成(composite), 以正确的处理透明元素和重叠元素</li>
+</ol>
+<h2 id="ReanderLayers-amp-GraphicsLayers"><a href="#ReanderLayers-amp-GraphicsLayers" class="headerlink" title="ReanderLayers &amp; GraphicsLayers"></a>ReanderLayers &amp; GraphicsLayers</h2><p><img src="/images/render-object-layers.png" alt></p>
+<p>上图</p>
+<ul>
+<li>RenderLayers渲染层，是负责对应DOM子树</li>
+<li>GraphicsLayers图形层, 是负责对应RenderLayers子树</li>
+</ul>
+<ol>
+<li>RenedrObjects保持树结构, RenderObject记录如何绘制一个node的内容, RenderObject 通过向绘图上下文(GraphicsContext)发出绘制来绘制nodes</li>
+<li>GraphicsLayer有一个GraphicsContext, GraphicsContext负责输出该层的位图, 位图存储在共享内存中, 作为纹理上传到GPU</li>
+<li>最后有GPU将多个位图合成, draw到屏幕上</li>
+<li>某些特殊的渲染层会被认为是合成层(Compositing Layers), 合成层拥有单独的GraphicsLayers. </li>
+<li>其他非合成层的渲染层, 会和其第一个拥有GraphicsLayer父层公用一个.</li>
+</ol>
+<h2 id="composite-隐式合成"><a href="#composite-隐式合成" class="headerlink" title="composite 隐式合成"></a>composite 隐式合成</h2><p>一个或多个非合成元素如果出现在堆叠顺序上的合成元素之上, 则会提升到合成层, 即被绘制成分离的图像, 将图像交给GPU处理.<br>例如: 元素A有一个z-index 比自己小的元素B, B是一个合成层(即该元素在复合层上渲染), 则A会提升位合成层(composite隐式合成);</p>
+<h2 id="层压缩-amp-层爆炸"><a href="#层压缩-amp-层爆炸" class="headerlink" title="层压缩&amp;层爆炸"></a>层压缩&amp;层爆炸</h2><p>浏览器为处理大量合成层的情况, 会对层做Layer Squashing(层压缩)的处理, 但是以下情况无法进行层压缩.</p>
+<p>当有大量额外的合成层时, 会出现层爆炸的现象.</p>
+<ol>
+<li>无法进行会打破渲染顺序的压缩</li>
+<li>video元素的渲染层无法被压缩同时也无法将别的渲染层压缩到video所在的合成层上</li>
+<li>iframe、plugin的渲染层无法被压缩同时也无法将别的渲染层压缩到iframe所在的合成层上</li>
+<li>无法压缩有reflection属性的渲染层</li>
+<li>无法压缩有blend mode属性的渲染层</li>
+<li>当渲染层和合成层有不同的裁减容器时, 该渲染层无法压缩</li>
+<li>相对于合成层滚动的渲染层无法被压缩</li>
+<li>当渲染层和合成层有不同的具有opacity的祖先层(一个设置了opacity &lt; 1, 一个没有设置opacity也算不同), 该渲染层无法压缩</li>
+<li>当渲染层和合成层有不同的具有transform的祖先层时, 该渲染层无法压缩</li>
+<li>当渲染层和合同层有不同的具有filter的祖先层时, 该渲染层无法压缩</li>
+<li>当覆盖的合成层正在运行动画时, 该渲染层无法压缩, 当动画未开始或者运行完毕以后, 该渲染层才可以被压缩</li>
+</ol>
 
           
         
@@ -619,7 +654,7 @@
 <li>合并DOM&amp;CSSOM 为一个渲染树RenderTree, display: none 的元素并不会出现在RenderTree</li>
 <li>根据RenderTree, 布局(计算节点在页面上的大小和位置)</li>
 <li>将节点绘制到屏幕 </li>
-<li>渲染层合并(见下篇文章)<br><img src="/images/render-tree-construction.png" alt></li>
+<li>渲染层合并(见下篇文章)<br><img src="/images/render-tree-construction.png" alt><br><img src="/images/render-tree-step.png" alt></li>
 </ol>
 <p>回到上述问题, resize时浏览器干了啥? </p>
 <ol>

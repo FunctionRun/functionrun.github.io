@@ -88,7 +88,8 @@
 <meta property="og:description" content="如下代码 浏览器执行了handleResize、handleClick分别干了什么事情123456789101112131415161718&amp;lt;style&amp;gt;    ele3 &amp;#123;        // will-change: transform; 和 translateZ(0) 效果雷同        translation: transform 0.2s;    &amp;#125;">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://functionrun.github.io/images/render-tree-construction.png">
-<meta property="og:updated_time" content="2019-06-12T06:55:58.289Z">
+<meta property="og:image" content="https://functionrun.github.io/images/render-tree-step.png">
+<meta property="og:updated_time" content="2019-06-14T06:35:45.441Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS 渲染原理一渲染过程">
 <meta name="twitter:description" content="如下代码 浏览器执行了handleResize、handleClick分别干了什么事情123456789101112131415161718&amp;lt;style&amp;gt;    ele3 &amp;#123;        // will-change: transform; 和 translateZ(0) 效果雷同        translation: transform 0.2s;    &amp;#125;">
@@ -334,7 +335,7 @@
 <li>合并DOM&amp;CSSOM 为一个渲染树RenderTree, display: none 的元素并不会出现在RenderTree</li>
 <li>根据RenderTree, 布局(计算节点在页面上的大小和位置)</li>
 <li>将节点绘制到屏幕 </li>
-<li>渲染层合并(见下篇文章)<br><img src="/images/render-tree-construction.png" alt></li>
+<li>渲染层合并(见下篇文章)<br><img src="/images/render-tree-construction.png" alt><br><img src="/images/render-tree-step.png" alt></li>
 </ol>
 <p>回到上述问题, resize时浏览器干了啥? </p>
 <ol>
