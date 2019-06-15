@@ -324,9 +324,14 @@
         
           
             <p><img src="/images/js-defer-async.png" alt></p>
+<ol>
+<li>如果async为true，那么脚本在下载完成后异步执行。</li>
+<li>如果async为false，defer为true，那么脚本会在页面解析完毕之后执行。</li>
+<li>如果async和defer都为false，那么脚本会在页面解析中，停止页面解析，立刻下载并且执行</li>
+</ol>
 <h2 id="浏览器处理script"><a href="#浏览器处理script" class="headerlink" title="浏览器处理script"></a>浏览器处理script</h2><ol>
 <li><code>&lt;script src=&quot;a.js&quot;&gt;&lt;/script&gt;</code> 浏览器会立即加载并执行脚本, 也就是在渲染该script标签之下的文档元素前, 就会加载并之下.</li>
-<li><code>&lt;script src=&quot;b.js&quot; defer&gt;&lt;/script&gt;</code> defer 加载后续文档元素的过程和加载b.js 并行进行(异步), 但是b.js的之下会在所有元素解析完成之后, DOMContentLoaded 事件触发之前完成.</li>
+<li><code>&lt;script src=&quot;b.js&quot; defer&gt;&lt;/script&gt;</code> defer 加载后续文档元素的过程和加载b.js 并行进行(异步), 但是b.js的之下会在所有元素解析完成之后, DOMContentLoaded 事件触发之前完成. DOMContentLoaded事件是当初始的HTML文档被完全加载和解析完成之后触发, 不需要等待样式表、图像和子框架的加载完成.</li>
 <li><code>&lt;script src=&quot;c.js&quot; async&gt;&lt;/script&gt;</code> async 加载和渲染后续文档元素的过程将和c.js的加载和执行并行进行(异步)</li>
 </ol>
 <p><img src="/images/js-defer-async-2.jpeg" alt></p>
