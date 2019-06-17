@@ -79,18 +79,22 @@
 
 
 
-<meta name="description" content="参考文章 https://juejin.im/post/5ab7b3a2f265da2378403e57https://juejin.im/entry/5b9885496fb9a05cf3711471https://raphamorim.io/understanding-react-fiber-incremental-rendering-feature/">
+<meta name="description" content="参考文章 https://juejin.im/post/5ab7b3a2f265da2378403e57https://juejin.im/entry/5b9885496fb9a05cf3711471https://raphamorim.io/understanding-react-fiber-incremental-rendering-feature/  React 渲染时的问题当组件比较大时,">
 <meta name="keywords" content="React, React Fiber">
 <meta property="og:type" content="article">
 <meta property="og:title" content="理解React Fiber">
 <meta property="og:url" content="https://functionrun.github.io/2019/06/15/理解React-Fiber/index.html">
 <meta property="og:site_name" content="一步一步向前走">
-<meta property="og:description" content="参考文章 https://juejin.im/post/5ab7b3a2f265da2378403e57https://juejin.im/entry/5b9885496fb9a05cf3711471https://raphamorim.io/understanding-react-fiber-incremental-rendering-feature/">
+<meta property="og:description" content="参考文章 https://juejin.im/post/5ab7b3a2f265da2378403e57https://juejin.im/entry/5b9885496fb9a05cf3711471https://raphamorim.io/understanding-react-fiber-incremental-rendering-feature/  React 渲染时的问题当组件比较大时,">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-15T04:44:19.650Z">
+<meta property="og:image" content="https://functionrun.github.io/images/stack-reconciler.png">
+<meta property="og:image" content="https://functionrun.github.io/images/fiber-reconciler.png">
+<meta property="og:image" content="https://functionrun.github.io/images/fiber-reconciler-instances.png">
+<meta property="og:updated_time" content="2019-06-17T05:29:06.718Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="理解React Fiber">
-<meta name="twitter:description" content="参考文章 https://juejin.im/post/5ab7b3a2f265da2378403e57https://juejin.im/entry/5b9885496fb9a05cf3711471https://raphamorim.io/understanding-react-fiber-incremental-rendering-feature/">
+<meta name="twitter:description" content="参考文章 https://juejin.im/post/5ab7b3a2f265da2378403e57https://juejin.im/entry/5b9885496fb9a05cf3711471https://raphamorim.io/understanding-react-fiber-incremental-rendering-feature/  React 渲染时的问题当组件比较大时,">
+<meta name="twitter:image" content="https://functionrun.github.io/images/stack-reconciler.png">
 
 
 
@@ -323,6 +327,12 @@
         <h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><blockquote>
 <p><a href="https://juejin.im/post/5ab7b3a2f265da2378403e57" target="_blank" rel="noopener">https://juejin.im/post/5ab7b3a2f265da2378403e57</a><br><a href="https://juejin.im/entry/5b9885496fb9a05cf3711471" target="_blank" rel="noopener">https://juejin.im/entry/5b9885496fb9a05cf3711471</a><br><a href="https://raphamorim.io/understanding-react-fiber-incremental-rendering-feature/" target="_blank" rel="noopener">https://raphamorim.io/understanding-react-fiber-incremental-rendering-feature/</a></p>
 </blockquote>
+<h2 id="React-渲染时的问题"><a href="#React-渲染时的问题" class="headerlink" title="React 渲染时的问题"></a>React 渲染时的问题</h2><p>当组件比较大时, js的执行会占用主线程时间, 此时对动画和手势会出现响应变差.<br>针对这个问题React, 对核心算法 reconciliation 进行了重写 -&gt; Fiber.</p>
+<p>以下图片形象说明了stack reconciler 和 fiber reconciler在渲染上的差别<br><img src="/images/stack-reconciler.png" alt><br><img src="/images/fiber-reconciler.png" alt></p>
+<h2 id="Fiber-tree-是一个单链表树结构"><a href="#Fiber-tree-是一个单链表树结构" class="headerlink" title="Fiber-tree 是一个单链表树结构"></a>Fiber-tree 是一个单链表树结构</h2><p>在stack reconciler 下React 会创建以下几种实例<br><img src="/images/fiber-reconciler-instances.png" alt></p>
+<p>fiber reconciler 中会创建以下实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">DOM</span><br><span class="line">    真是DOM节点</span><br><span class="line">------</span><br><span class="line">effect</span><br><span class="line">    每个workInProgress tree 节点上都有一个effect list</span><br><span class="line">    用于存放diff的结果</span><br><span class="line">    当前节点更新完毕后会向上merge effect list, 此时queue会收集diff结果</span><br><span class="line">- - - -</span><br><span class="line">workInProgress</span><br><span class="line">    workInProgress tree是reconcile过程中从fiber tree建立的当前进度快照, 用于断点恢复</span><br><span class="line">- - - -</span><br><span class="line">filber</span><br><span class="line">    fiber tree 和 vDOM tree类似, 用来描述增量更新所需的上下文信息, fiber结构如下</span><br><span class="line">    &#123;</span><br><span class="line">        stateNode, // 管理Instance 自身的特性</span><br><span class="line">        child, // 当前节点的孩子节点</span><br><span class="line">        return, // 表示处理完成后返回结果所要合并的目标, 通常指向父节点</span><br><span class="line">        sibling, // 当前节点的下一个兄弟节点</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">------</span><br><span class="line">Elements</span><br><span class="line">    描述UI长什么样子</span><br><span class="line">    &#123;</span><br><span class="line">        type,</span><br><span class="line">        props,</span><br><span class="line">        children</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -502,7 +512,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章"><span class="nav-number">1.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章"><span class="nav-number">1.</span> <span class="nav-text">参考文章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React-渲染时的问题"><span class="nav-number">2.</span> <span class="nav-text">React 渲染时的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fiber-tree-是一个单链表树结构"><span class="nav-number">3.</span> <span class="nav-text">Fiber-tree 是一个单链表树结构</span></a></li></ol></div>
             
 
           </div>
