@@ -252,6 +252,156 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://functionrun.github.io/2019/06/17/中间件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FunctionRun">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/me.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一步一步向前走">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/17/中间件/" itemprop="url">中间件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-17T20:46:37+08:00">
+                2019-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>wiki:</p>
+<blockquote>
+<p>中间件Middleware, 是提供系统软件和应用软件之间连接的软件, 以便软件各部分之间的沟通, 特别是应用软件对于系统软件的集中的逻辑<br>在现代信息技术应用框架如Web服务、面向服务的体系结构中应用广泛、如数据库Apache的Tomcat, IBM的websphere, BEA公司的WebLogic…</p>
+</blockquote>
+<h2 id="Express中间件"><a href="#Express中间件" class="headerlink" title="Express中间件"></a>Express中间件</h2><p>中间件的本质就是一个函数, 在收到请求和返回响应的过程中做一些我们想要做的事情, 见如下描述:</p>
+<blockquote>
+<p>执行任何代码, 修改请求和响应对象 -&gt; 终结请求-&gt; 响应循环 -&gt; 调用堆栈中的下一个中间件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const express = require(&apos;express&apos;);</span><br><span class="line">const app = express();</span><br><span class="line"></span><br><span class="line">app.use(&apos;/user&apos;, function(req, res, next) &#123;</span><br><span class="line">    next();</span><br><span class="line">&#125;)</span><br><span class="line">app.listen(8080)</span><br></pre></td></tr></table></figure>
+
+<p>Express中有以下5类中间件</p>
+<ul>
+<li>应用级中间件</li>
+<li>路由级中间件</li>
+<li>错误处理中间件</li>
+<li>内置中间件</li>
+<li>第三方中间件</li>
+</ul>
+<h2 id="Koa中间件"><a href="#Koa中间件" class="headerlink" title="Koa中间件"></a>Koa中间件</h2><ul>
+<li>koa-router、koa-compress、koa-respond、kors、koa-convert、koa-bodyparser、koa-compose、koa-static</li>
+</ul>
+<p>Koa2 基于async\await实现中间件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function logger(format) &#123;</span><br><span class="line">    format = format || &apos;:methos &quot;:url&quot;&apos;;</span><br><span class="line">    return async function logger(ctx, next) &#123;</span><br><span class="line">        const str = format.replace(&apos;:method&apos;, ctx.method).replace(&apos;:url&apos;, ctx.url);</span><br><span class="line">        console.log(str);</span><br><span class="line">        await next();</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">app.use(logger());</span><br><span class="line">app.use(logger(&apos;:method :url&apos;));</span><br></pre></td></tr></table></figure>
+
+<p>Koa1 给予Generator</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const koa = require(&apos;koa&apos;);</span><br><span class="line">const app = koa();</span><br><span class="line">app.use(function*(next) &#123;</span><br><span class="line">    console.log(&apos;before middleware&apos;);</span><br><span class="line">    yield next;</span><br><span class="line">    console.log(&apos;after middleware&apos;);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Redux-中间件"><a href="#Redux-中间件" class="headerlink" title="Redux 中间件"></a>Redux 中间件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// applyMiddleware</span><br><span class="line">import compose from &apos;./compose&apos;</span><br><span class="line">export default function applyMiddleware(...middlewares) &#123;</span><br><span class="line">    return createStore =&gt; (...args) =&gt; &#123;</span><br><span class="line">        const store = createStore(...args);</span><br><span class="line">        let dispatch = () =&gt; &#123;</span><br><span class="line">            throw new Error(&apos;XXXX&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">        const middlewareAPI = &#123;</span><br><span class="line">            getState: store.getState,</span><br><span class="line">            dispatch: (...agrs) =&gt; dispatch(...args)</span><br><span class="line">        &#125;</span><br><span class="line">        const chain = middlewares.map(middleware =&gt; middleware(middlewareAPI));</span><br><span class="line">        dispatch = compose(...chain)(store.dispatch);</span><br><span class="line">        return &#123;</span><br><span class="line">            ...store,</span><br><span class="line">            dispatch</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const logger = (&#123;getState, dispatch&#125;) =&gt; next =&gt; action =&gt; &#123;</span><br><span class="line">    console.log(&apos;before next &apos;, action);</span><br><span class="line">    const returnValue = next(action);</span><br><span class="line">    console.log(&apos;after next, getState());</span><br><span class="line">    return returnValue;</span><br><span class="line">&#125;</span><br><span class="line">let store = createStore(reducer, initState, applyMiddleware(logger));</span><br><span class="line">/** 现在尝试发送一个 action**/</span><br><span class="line">store.dispatch(&#123;</span><br><span class="line">    type: &apos;CHANGE_SCORE&apos;,</span><br><span class="line">    score: 0.8</span><br><span class="line">&#125;)</span><br><span class="line">/** 打印:**/</span><br><span class="line">// 【logger】即将执行: &#123; type: &apos;CHANGE_SCORE&apos;, score: 0.8 &#125;</span><br><span class="line">// 【logger】执行完成后 state: &#123; score: 0.8 &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// redux-thunk</span><br><span class="line">const thunk = (&#123;getState, dispatch&#125;) =&gt; next =&gt; action =&gt; &#123;</span><br><span class="line">    if (typeof action  === &apos;function&apos;) &#123;</span><br><span class="line">        return action(dispatch, getState);</span><br><span class="line">    &#125;</span><br><span class="line">    return next(action);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://functionrun.github.io/2019/06/15/理解React-Fiber/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1334,7 +1484,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1347,7 +1497,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
