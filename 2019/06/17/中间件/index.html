@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Redux, Node中间价, Koa, Express,">
+  <meta name="keywords" content="中间件,">
 
 
 
@@ -80,14 +80,14 @@
 
 
 <meta name="description" content="wiki:  中间件Middleware, 是提供系统软件和应用软件之间连接的软件, 以便软件各部分之间的沟通, 特别是应用软件对于系统软件的集中的逻辑在现代信息技术应用框架如Web服务、面向服务的体系结构中应用广泛、如数据库Apache的Tomcat, IBM的websphere, BEA公司的WebLogic…  Express中间件中间件的本质就是一个函数, 在收到请求和返回响应的过程中做一">
-<meta name="keywords" content="Redux, Node中间价, Koa, Express">
+<meta name="keywords" content="中间件">
 <meta property="og:type" content="article">
 <meta property="og:title" content="中间件">
 <meta property="og:url" content="https://functionrun.github.io/2019/06/17/中间件/index.html">
 <meta property="og:site_name" content="一步一步向前走">
 <meta property="og:description" content="wiki:  中间件Middleware, 是提供系统软件和应用软件之间连接的软件, 以便软件各部分之间的沟通, 特别是应用软件对于系统软件的集中的逻辑在现代信息技术应用框架如Web服务、面向服务的体系结构中应用广泛、如数据库Apache的Tomcat, IBM的websphere, BEA公司的WebLogic…  Express中间件中间件的本质就是一个函数, 在收到请求和返回响应的过程中做一">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-17T15:53:48.250Z">
+<meta property="og:updated_time" content="2019-06-18T02:32:35.282Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="中间件">
 <meta name="twitter:description" content="wiki:  中间件Middleware, 是提供系统软件和应用软件之间连接的软件, 以便软件各部分之间的沟通, 特别是应用软件对于系统软件的集中的逻辑在现代信息技术应用框架如Web服务、面向服务的体系结构中应用广泛、如数据库Apache的Tomcat, IBM的websphere, BEA公司的WebLogic…  Express中间件中间件的本质就是一个函数, 在收到请求和返回响应的过程中做一">
@@ -347,7 +347,7 @@
 <p>Koa1 给予Generator</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const koa = require(&apos;koa&apos;);</span><br><span class="line">const app = koa();</span><br><span class="line">app.use(function*(next) &#123;</span><br><span class="line">    console.log(&apos;before middleware&apos;);</span><br><span class="line">    yield next;</span><br><span class="line">    console.log(&apos;after middleware&apos;);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-<h2 id="Redux-中间件"><a href="#Redux-中间件" class="headerlink" title="Redux 中间件"></a>Redux 中间件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// applyMiddleware</span><br><span class="line">import compose from &apos;./compose&apos;</span><br><span class="line">export default function applyMiddleware(...middlewares) &#123;</span><br><span class="line">    return createStore =&gt; (...args) =&gt; &#123;</span><br><span class="line">        const store = createStore(...args);</span><br><span class="line">        let dispatch = () =&gt; &#123;</span><br><span class="line">            throw new Error(&apos;XXXX&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">        const middlewareAPI = &#123;</span><br><span class="line">            getState: store.getState,</span><br><span class="line">            dispatch: (...agrs) =&gt; dispatch(...args)</span><br><span class="line">        &#125;</span><br><span class="line">        const chain = middlewares.map(middleware =&gt; middleware(middlewareAPI));</span><br><span class="line">        dispatch = compose(...chain)(store.dispatch);</span><br><span class="line">        return &#123;</span><br><span class="line">            ...store,</span><br><span class="line">            dispatch</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Redux-中间件"><a href="#Redux-中间件" class="headerlink" title="Redux 中间件"></a>Redux 中间件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">// applyMiddleware</span><br><span class="line">function compose(...funcs) &#123;</span><br><span class="line">    if (funcs.length === 0) &#123;</span><br><span class="line">        return arg =&gt; arg;</span><br><span class="line">    &#125;</span><br><span class="line">    if (funcs.length === 1) &#123;</span><br><span class="line">        return funcs[0];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return funcs.reduce((a, b) =&gt; (...args) =&gt; a(b(...agrs)))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default function applyMiddleware(...middlewares) &#123;</span><br><span class="line">    return createStore =&gt; (...args) =&gt; &#123;</span><br><span class="line">        const store = createStore(...args);</span><br><span class="line">        let dispatch = () =&gt; &#123;</span><br><span class="line">            throw new Error(&apos;XXXX&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">        const middlewareAPI = &#123;</span><br><span class="line">            getState: store.getState,</span><br><span class="line">            dispatch: (...agrs) =&gt; dispatch(...args)</span><br><span class="line">        &#125;</span><br><span class="line">        const chain = middlewares.map(middleware =&gt; middleware(middlewareAPI));</span><br><span class="line">        dispatch = compose(...chain)(store.dispatch);</span><br><span class="line">        return &#123;</span><br><span class="line">            ...store,</span><br><span class="line">            dispatch</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const logger = (&#123;getState, dispatch&#125;) =&gt; next =&gt; action =&gt; &#123;</span><br><span class="line">    console.log(&apos;before next &apos;, action);</span><br><span class="line">    const returnValue = next(action);</span><br><span class="line">    console.log(&apos;after next, getState());</span><br><span class="line">    return returnValue;</span><br><span class="line">&#125;</span><br><span class="line">let store = createStore(reducer, initState, applyMiddleware(logger));</span><br><span class="line">/** 现在尝试发送一个 action**/</span><br><span class="line">store.dispatch(&#123;</span><br><span class="line">    type: &apos;CHANGE_SCORE&apos;,</span><br><span class="line">    score: 0.8</span><br><span class="line">&#125;)</span><br><span class="line">/** 打印:**/</span><br><span class="line">// 【logger】即将执行: &#123; type: &apos;CHANGE_SCORE&apos;, score: 0.8 &#125;</span><br><span class="line">// 【logger】执行完成后 state: &#123; score: 0.8 &#125;</span><br></pre></td></tr></table></figure>
 
@@ -368,7 +368,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Redux-Node中间价-Koa-Express/" rel="tag"># Redux, Node中间价, Koa, Express</a>
+            <a href="/tags/中间件/" rel="tag"># 中间件</a>
           
         </div>
       
@@ -390,6 +390,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/18/React-Hooks/" rel="prev" title="React Hooks">
+                React Hooks <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -468,7 +472,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -481,7 +485,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
