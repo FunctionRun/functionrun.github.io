@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="一步一步向前走">
 <meta property="og:description" content="ES6 循环依赖的一个例子a.js 123456import &amp;#123;bar&amp;#125; from &amp;apos;./b.js&amp;apos;;export function foo() &amp;#123;    bar();      console.log(&amp;apos;执行完毕&amp;apos;);&amp;#125;foo();  b.js 123456import &amp;#123;foo&amp;#125; from &amp;a">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-20T13:16:29.887Z">
+<meta property="og:updated_time" content="2019-06-24T13:20:29.736Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ES6中import的循环依赖的理解">
 <meta name="twitter:description" content="ES6 循环依赖的一个例子a.js 123456import &amp;#123;bar&amp;#125; from &amp;apos;./b.js&amp;apos;;export function foo() &amp;#123;    bar();      console.log(&amp;apos;执行完毕&amp;apos;);&amp;#125;foo();  b.js 123456import &amp;#123;foo&amp;#125; from &amp;a">
@@ -331,11 +331,160 @@
 <li>import {bar} from ‘./b.js’ -&gt; 此时对b模块只是一个引用, 不会去执行</li>
 <li>foo() -&gt; bar() -&gt; 执行b </li>
 <li>import {foo} from ‘./a.js’ -&gt; 指向a.js 中的foo对象</li>
-<li><code>Math.random() &gt; 0.5</code>条件成立执行 foo 跳到2, 否则 不执行, 直接执行5</li>
-<li>-&gt; 执行完毕</li>
-</ol>
-<h2 id="ES6模块如何处理循环依赖"><a href="#ES6模块如何处理循环依赖" class="headerlink" title="ES6模块如何处理循环依赖"></a>ES6模块如何处理循环依赖</h2><p>ES6根本不关心会不会发生循环依赖, 只是生产一个指向被加载模块的一个引用, 这和CommonJS不同</p>
+<li><figure class="highlight plain"><figcaption><span>> 0.5```条件成立执行 foo 跳到2, 否则 不执行, 直接执行5</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">5. -&gt; 执行完毕</span><br><span class="line"></span><br><span class="line">ES6模块如何处理循环依赖</span><br><span class="line">---</span><br><span class="line">ES6根本不关心会不会发生循环依赖, 只是生产一个指向被加载模块的一个引用, 这和CommonJS不同</span><br><span class="line">上述代码webpack编译后如下:</span><br></pre></td></tr></table></figure>
 
+</li>
+</ol>
+<p>/<strong>**</strong>/ (function(modules) { // webpackBootstrap<br>/<strong>**</strong>/     // The module cache<br>/<strong>**</strong>/     var installedModules = {};<br>/<strong>**</strong>/
+/<strong>**</strong>/     // The require function<br>/<strong>**</strong>/     function <strong>webpack_require</strong>(moduleId) {<br>/<strong>**</strong>/
+/<strong>**</strong>/         // Check if module is in cache<br>/<strong>**</strong>/         if(installedModules[moduleId]) {<br>/<strong>**</strong>/             return installedModules[moduleId].exports;<br>/<strong>**</strong>/         }<br>/<strong>**</strong>/         // Create a new module (and put it into the cache)<br>/<strong>**</strong>/         var module = installedModules[moduleId] = {<br>/<strong>**</strong>/             i: moduleId,<br>/<strong>**</strong>/             l: false,<br>/<strong>**</strong>/             exports: {}<br>/<strong>**</strong>/         };<br>/<strong>**</strong>/
+/<strong>**</strong>/         // Execute the module function<br>/<strong>**</strong>/         modules[moduleId].call(module.exports, module, module.exports, <strong>webpack_require</strong>);<br>/<strong>**</strong>/
+/<strong>**</strong>/         // Flag the module as loaded<br>/<strong>**</strong>/         module.l = true;<br>/<strong>**</strong>/
+/<strong>**</strong>/         // Return the exports of the module<br>/<strong>**</strong>/         return module.exports;<br>/<strong>**</strong>/     }<br>/<strong>**</strong>/
+/<strong>**</strong>/
+/<strong>**</strong>/     // expose the modules object (<strong>webpack_modules</strong>)
+/<strong>**</strong>/     <strong>webpack_require</strong>.m = modules;<br>/<strong>**</strong>/
+/<strong>**</strong>/     // expose the module cache<br>/<strong>**</strong>/     <strong>webpack_require</strong>.c = installedModules;<br>/<strong>**</strong>/
+/<strong>**</strong>/     // define getter function for harmony exports<br>/<strong>**</strong>/     <strong>webpack_require</strong>.d = function(exports, name, getter) {<br>/<strong>**</strong>/         if(!<strong>webpack_require</strong>.o(exports, name)) {<br>/<strong>**</strong>/             Object.defineProperty(exports, name, { enumerable: true, get: getter });<br>/<strong>**</strong>/         }<br>/<strong>**</strong>/     };<br>/<strong>**</strong>/
+/<strong>**</strong>/     // define <strong>esModule on exports<br>/<strong>**</strong>/     __webpack_require</strong>.r = function(exports) {<br>/<strong>**</strong>/         if(typeof Symbol !== ‘undefined’ &amp;&amp; Symbol.toStringTag) {<br>/<strong>**</strong>/             Object.defineProperty(exports, Symbol.toStringTag, { value: ‘Module’ });<br>/<strong>**</strong>/         }<br>/<strong>**</strong>/         Object.defineProperty(exports, ‘<strong>esModule’, { value: true });<br>/<strong>**</strong>/     };<br>/<strong>**</strong>/
+/<strong>**</strong>/     // create a fake namespace object<br>/<strong>**</strong>/     // mode &amp; 1: value is a module id, require it<br>/<strong>**</strong>/     // mode &amp; 2: merge all properties of value into the ns<br>/<strong>**</strong>/     // mode &amp; 4: return value when already ns object<br>/<strong>**</strong>/     // mode &amp; 8|1: behave like require<br>/<strong>**</strong>/     __webpack_require</strong>.t = function(value, mode) {<br>/<strong>**</strong>/         if(mode &amp; 1) value = <strong>webpack_require</strong>(value);<br>/<strong>**</strong>/         if(mode &amp; 8) return value;<br>/<strong>**</strong>/         if((mode &amp; 4) &amp;&amp; typeof value === ‘object’ &amp;&amp; value &amp;&amp; value.<strong>esModule) return value;<br>/<strong>**</strong>/         var ns = Object.create(null);<br>/<strong>**</strong>/         __webpack_require</strong>.r(ns);<br>/<strong>**</strong>/         Object.defineProperty(ns, ‘default’, { enumerable: true, value: value });<br>/<strong>**</strong>/         if(mode &amp; 2 &amp;&amp; typeof value != ‘string’) for(var key in value) <strong>webpack_require</strong>.d(ns, key, function(key) { return value[key]; }.bind(null, key));<br>/<strong>**</strong>/         return ns;<br>/<strong>**</strong>/     };<br>/<strong>**</strong>/
+/<strong>**</strong>/     // getDefaultExport function for compatibility with non-harmony modules<br>/<strong>**</strong>/     <strong>webpack_require</strong>.n = function(module) {<br>/<strong>**</strong>/         var getter = module &amp;&amp; module.<strong>esModule ?<br>/<strong>**</strong>/             function getDefault() { return module[‘default’]; } :<br>/<strong>**</strong>/             function getModuleExports() { return module; };<br>/<strong>**</strong>/         __webpack_require</strong>.d(getter, ‘a’, getter);<br>/<strong>**</strong>/         return getter;<br>/<strong>**</strong>/     };<br>/<strong>**</strong>/
+/<strong>**</strong>/     // Object.prototype.hasOwnProperty.call<br>/<strong>**</strong>/     <strong>webpack_require</strong>.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };<br>/<strong>**</strong>/
+/<strong>**</strong>/     // <strong>webpack_public_path</strong><br>/<strong>**</strong>/     <strong>webpack_require</strong>.p = “./dist/“;<br>/<strong>**</strong>/
+/<strong>**</strong>/
+/<strong>**</strong>/     // Load entry module and return exports<br>/<strong>**</strong>/     return <strong>webpack_require</strong>(<strong>webpack_require</strong>.s = “./test/index.ts”);<br>/<strong>**</strong>/ })<br>/<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>****</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>/
+/<strong>**</strong>/ ({</p>
+<p>/<strong><em>/ “./test/a.ts”:<br>/</em>!<strong><strong><strong>*****</strong></strong></strong></strong>!<em><br>  !<strong>* ./test/a.ts *</strong>!
+  *<strong><strong><strong><strong>**</strong></strong></strong></strong>/
+/</em>! exports provided: foo <em>/
+/**</em>/ (function(module, <strong>webpack_exports</strong>, <strong>webpack_require</strong>) {</p>
+<p>“use strict”;<br><strong>webpack_require</strong>.r(<strong>webpack_exports</strong>);<br>/* harmony export (binding) <em>/ <strong>webpack_require</strong>.d(<strong>webpack_exports</strong>, “foo”, function() { return foo; });<br>/</em> harmony import <em>/ var <em>b__WEBPACK_IMPORTED_MODULE_0_</em> = <strong>webpack_require</strong>(/</em>! ./b */ “./test/b.ts”);</p>
+<p>function foo() {<br>    Object(<em>b__WEBPACK_IMPORTED_MODULE_0_</em>[“bar”])();<br>    console.log(‘foo 执行完毕’);<br>}
+foo();</p>
+<p>/***/ }),</p>
+<p>/<strong><em>/ “./test/b.ts”:<br>/</em>!<strong><strong><strong>*****</strong></strong></strong></strong>!<em><br>  !<strong>* ./test/b.ts *</strong>!
+  *<strong><strong><strong><strong>**</strong></strong></strong></strong>/
+/</em>! exports provided: bar <em>/
+/**</em>/ (function(module, <strong>webpack_exports</strong>, <strong>webpack_require</strong>) {</p>
+<p>“use strict”;<br><strong>webpack_require</strong>.r(<strong>webpack_exports</strong>);<br>/* harmony export (binding) <em>/ <strong>webpack_require</strong>.d(<strong>webpack_exports</strong>, “bar”, function() { return bar; });<br>/</em> harmony import <em>/ var <em>a__WEBPACK_IMPORTED_MODULE_0_</em> = <strong>webpack_require</strong>(/</em>! ./a */ “./test/a.ts”);</p>
+<p>function bar() {<br>    if (Math.random() &gt; 0.5) {<br>        Object(<em>a__WEBPACK_IMPORTED_MODULE_0_</em>[“foo”])();<br>    }<br>}</p>
+<p>/***/ }),</p>
+<p>/<strong><em>/ “./test/index.ts”:<br>/</em>!<strong><strong><strong><strong>*****</strong></strong></strong></strong></strong>!<em><br>  !<strong>* ./test/index.ts *</strong>!
+  *<strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong>/
+/</em>! no exports provided <em>/
+/**</em>/ (function(module, <strong>webpack_exports</strong>, <strong>webpack_require</strong>) {</p>
+<p>“use strict”;<br><strong>webpack_require</strong>.r(<strong>webpack_exports</strong>);<br>/* harmony import <em>/ var <em>a__WEBPACK_IMPORTED_MODULE_0_</em> = <strong>webpack_require</strong>(/</em>! ./a */ “./test/a.ts”);</p>
+<p>/***/ })</p>
+<p>/<strong>**</strong>/ });<br>//# sourceMappingURL=test.bundle.js.map</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ES6 输出值的引用</span><br><span class="line">---</span><br><span class="line">a.js</span><br></pre></td></tr></table></figure>
+
+<pre><code>import {foo} from &apos;./b&apos;;
+console.log(foo);
+setTimeout(() =&gt; {
+    console.log(foo);
+    import(&apos;./b&apos;).then(({foo}) =&gt; {
+        console.log(foo);
+    });
+}, 1000);</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">b.js</span><br></pre></td></tr></table></figure>
+
+<pre><code>export let foo = 1;
+setTimeout(() =&gt; {
+    foo = 2;
+}, 500);</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. babel-node a.js </span><br><span class="line">2. -&gt; 1 -&gt; 2 -&gt; 2 </span><br><span class="line"></span><br><span class="line">webpack 编译后结果如下</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<pre><code>(function(modules) {
+    var installedModules = {};
+    function __webpack_require__(moduleId) {
+        if (installedModules[moduleId]) {
+            return installedModules[moduleId];
+        }
+
+        var module = installedModules[moduleId] = {
+            i: moduleId,
+            l: false,
+            exports: {}
+        }
+        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+        module.l = true;
+        return module.exports;
+    }
+
+    __webpack_require__.r = function(exports) {
+        if(typeof Symbol !== &apos;undefined&apos; &amp;&amp; Symbol.toStringTag) {
+            Object.defineProperty(exports, Symbol.toStringTag, { value: &apos;Module&apos; });
+        }
+        Object.defineProperty(exports, &apos;__esModule&apos;, { value: true });
+    };
+
+    ...
+    return __webpack_require__(__webpack_require__.s = &quot;./other/index.ts&quot;);
+})({
+    &apos;./other/a.ts&apos;: (function(module, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.r(__webpack_exports__);
+        var _b__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./b */ &quot;./other/b.ts&quot;);
+
+        console.log(_b__WEBPACK_IMPORTED_MODULE_0__[&quot;foo&quot;]);
+        setTimeout(() =&gt; {
+            console.log(_b__WEBPACK_IMPORTED_MODULE_0__[&quot;foo&quot;]);
+            Promise.resolve(/*! import() */).then(__webpack_require__.bind(null, /*! ./b */ &quot;./other/b.ts&quot;)).then(({ foo }) =&gt; {
+                console.log(foo);
+            });
+        }, 1000);
+    }),
+    &apos;./other/b.ts&apos;: (function(module, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_require__.d(__webpack_exports__, &quot;foo&quot;, function() { return foo; });
+        let foo = 1;
+        setTimeout(() =&gt; {
+            foo = 2;
+        }, 500);
+    }),
+    &apos;./other/index.ts&apos;: (function(module, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.r(__webpack_exports__);
+        var _a_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./a.ts */ &quot;./other/a.ts&quot;);
+    })
+})</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">源代码如下:</span><br></pre></td></tr></table></figure>
+
+<p>/<strong>**</strong>/ (function(modules) { // webpackBootstrap<br>/<strong>**</strong>/     // The module cache<br>/<strong>**</strong>/     var installedModules = {};<br>/<strong>**</strong>/
+/<strong>**</strong>/     // The require function<br>/<strong>**</strong>/     function <strong>webpack_require</strong>(moduleId) {<br>/<strong>**</strong>/
+/<strong>**</strong>/         // Check if module is in cache<br>/<strong>**</strong>/         if(installedModules[moduleId]) {<br>/<strong>**</strong>/             return installedModules[moduleId].exports;<br>/<strong>**</strong>/         }<br>/<strong>**</strong>/         // Create a new module (and put it into the cache)<br>/<strong>**</strong>/         var module = installedModules[moduleId] = {<br>/<strong>**</strong>/             i: moduleId,<br>/<strong>**</strong>/             l: false,<br>/<strong>**</strong>/             exports: {}<br>/<strong>**</strong>/         };<br>/<strong>**</strong>/
+/<strong>**</strong>/         // Execute the module function<br>/<strong>**</strong>/         modules[moduleId].call(module.exports, module, module.exports, <strong>webpack_require</strong>);<br>/<strong>**</strong>/
+/<strong>**</strong>/         // Flag the module as loaded<br>/<strong>**</strong>/         module.l = true;<br>/<strong>**</strong>/
+/<strong>**</strong>/         // Return the exports of the module<br>/<strong>**</strong>/         return module.exports;<br>/<strong>**</strong>/     }<br>/<strong>**</strong>/
+/<strong>**</strong>/
+/<strong>**</strong>/     // expose the modules object (<strong>webpack_modules</strong>)
+/<strong>**</strong>/     <strong>webpack_require</strong>.m = modules;<br>/<strong>**</strong>/
+/<strong>**</strong>/     // expose the module cache<br>/<strong>**</strong>/     <strong>webpack_require</strong>.c = installedModules;<br>/<strong>**</strong>/
+/<strong>**</strong>/     // define getter function for harmony exports<br>/<strong>**</strong>/     <strong>webpack_require</strong>.d = function(exports, name, getter) {<br>/<strong>**</strong>/         if(!<strong>webpack_require</strong>.o(exports, name)) {<br>/<strong>**</strong>/             Object.defineProperty(exports, name, { enumerable: true, get: getter });<br>/<strong>**</strong>/         }<br>/<strong>**</strong>/     };<br>/<strong>**</strong>/
+/<strong>**</strong>/     // define <strong>esModule on exports<br>/<strong>**</strong>/     __webpack_require</strong>.r = function(exports) {<br>/<strong>**</strong>/         if(typeof Symbol !== ‘undefined’ &amp;&amp; Symbol.toStringTag) {<br>/<strong>**</strong>/             Object.defineProperty(exports, Symbol.toStringTag, { value: ‘Module’ });<br>/<strong>**</strong>/         }<br>/<strong>**</strong>/         Object.defineProperty(exports, ‘<strong>esModule’, { value: true });<br>/<strong>**</strong>/     };<br>/<strong>**</strong>/
+/<strong>**</strong>/     // create a fake namespace object<br>/<strong>**</strong>/     // mode &amp; 1: value is a module id, require it<br>/<strong>**</strong>/     // mode &amp; 2: merge all properties of value into the ns<br>/<strong>**</strong>/     // mode &amp; 4: return value when already ns object<br>/<strong>**</strong>/     // mode &amp; 8|1: behave like require<br>/<strong>**</strong>/     __webpack_require</strong>.t = function(value, mode) {<br>/<strong>**</strong>/         if(mode &amp; 1) value = <strong>webpack_require</strong>(value);<br>/<strong>**</strong>/         if(mode &amp; 8) return value;<br>/<strong>**</strong>/         if((mode &amp; 4) &amp;&amp; typeof value === ‘object’ &amp;&amp; value &amp;&amp; value.<strong>esModule) return value;<br>/<strong>**</strong>/         var ns = Object.create(null);<br>/<strong>**</strong>/         __webpack_require</strong>.r(ns);<br>/<strong>**</strong>/         Object.defineProperty(ns, ‘default’, { enumerable: true, value: value });<br>/<strong>**</strong>/         if(mode &amp; 2 &amp;&amp; typeof value != ‘string’) for(var key in value) <strong>webpack_require</strong>.d(ns, key, function(key) { return value[key]; }.bind(null, key));<br>/<strong>**</strong>/         return ns;<br>/<strong>**</strong>/     };<br>/<strong>**</strong>/
+/<strong>**</strong>/     // getDefaultExport function for compatibility with non-harmony modules<br>/<strong>**</strong>/     <strong>webpack_require</strong>.n = function(module) {<br>/<strong>**</strong>/         var getter = module &amp;&amp; module.<strong>esModule ?<br>/<strong>**</strong>/             function getDefault() { return module[‘default’]; } :<br>/<strong>**</strong>/             function getModuleExports() { return module; };<br>/<strong>**</strong>/         __webpack_require</strong>.d(getter, ‘a’, getter);<br>/<strong>**</strong>/         return getter;<br>/<strong>**</strong>/     };<br>/<strong>**</strong>/
+/<strong>**</strong>/     // Object.prototype.hasOwnProperty.call<br>/<strong>**</strong>/     <strong>webpack_require</strong>.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };<br>/<strong>**</strong>/
+/<strong>**</strong>/     // <strong>webpack_public_path</strong><br>/<strong>**</strong>/     <strong>webpack_require</strong>.p = “./dist/“;<br>/<strong>**</strong>/
+/<strong>**</strong>/
+/<strong>**</strong>/     // Load entry module and return exports<br>/<strong>**</strong>/     return <strong>webpack_require</strong>(<strong>webpack_require</strong>.s = “./other/index.ts”);<br>/<strong>**</strong>/ })<br>/<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>****</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>/
+/<strong>**</strong>/ ({</p>
+<p>/<strong><em>/ “./other/a.ts”:<br>/</em>!<strong><strong><strong><strong>**</strong></strong></strong></strong></strong>!<em><br>  !<strong>* ./other/a.ts *</strong>!
+  *<strong><strong><strong><strong>***</strong></strong></strong></strong>/
+/</em>! no exports provided <em>/
+/**</em>/ (function(module, <strong>webpack_exports</strong>, <strong>webpack_require</strong>) {</p>
+<p>“use strict”;<br><strong>webpack_require</strong>.r(<strong>webpack_exports</strong>);<br>/* harmony import <em>/ var <em>b__WEBPACK_IMPORTED_MODULE_0_</em> = <strong>webpack_require</strong>(/</em>! ./b */ “./other/b.ts”);</p>
+<p>console.log(<em>b__WEBPACK_IMPORTED_MODULE_0_</em>[“foo”]);<br>setTimeout(() =&gt; {<br>    console.log(<em>b__WEBPACK_IMPORTED_MODULE_0_</em>[“foo”]);<br>    Promise.resolve(/<em>! import() */).then(<strong>webpack_require</strong>.bind(null, /</em>! ./b */ “./other/b.ts”)).then(({ foo }) =&gt; {<br>        console.log(foo);<br>    });<br>}, 1000);</p>
+<p>/***/ }),</p>
+<p>/<strong><em>/ “./other/b.ts”:<br>/</em>!<strong><strong><strong><strong>**</strong></strong></strong></strong></strong>!<em><br>  !<strong>* ./other/b.ts *</strong>!
+  *<strong><strong><strong><strong>***</strong></strong></strong></strong>/
+/</em>! exports provided: foo <em>/
+/**</em>/ (function(module, <strong>webpack_exports</strong>, <strong>webpack_require</strong>) {</p>
+<p>“use strict”;<br><strong>webpack_require</strong>.r(<strong>webpack_exports</strong>);<br>/* harmony export (binding) */ <strong>webpack_require</strong>.d(<strong>webpack_exports</strong>, “foo”, function() { return foo; });<br>let foo = 1;<br>setTimeout(() =&gt; {<br>    foo = 2;<br>}, 500);</p>
+<p>/***/ }),</p>
+<p>/<strong><em>/ “./other/index.ts”:<br>/</em>!<strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong>!<em><br>  !<strong>* ./other/index.ts *</strong>!
+  *<strong><strong><strong><strong><strong>***</strong></strong></strong></strong></strong>/
+/</em>! no exports provided <em>/
+/**</em>/ (function(module, <strong>webpack_exports</strong>, <strong>webpack_require</strong>) {</p>
+<p>“use strict”;<br><strong>webpack_require</strong>.r(<strong>webpack_exports</strong>);<br>/* harmony import <em>/ var <em>a</em>ts__WEBPACK_IMPORTED_MODULE_0__ = <strong>webpack_require</strong>(/</em>! ./a.ts */ “./other/a.ts”);</p>
+<p>/***/ })</p>
+<p>/<strong>**</strong>/ });<br>//# sourceMappingURL=other.bundle.js.map</p>
+<pre><code></code></pre>
       
     </div>
     
@@ -514,7 +663,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6-循环依赖的一个例子"><span class="nav-number">1.</span> <span class="nav-text">ES6 循环依赖的一个例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6模块如何处理循环依赖"><span class="nav-number">2.</span> <span class="nav-text">ES6模块如何处理循环依赖</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6-循环依赖的一个例子"><span class="nav-number">1.</span> <span class="nav-text">ES6 循环依赖的一个例子</span></a></li></ol></div>
             
 
           </div>
