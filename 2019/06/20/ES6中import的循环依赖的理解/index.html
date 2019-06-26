@@ -99,10 +99,10 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="ES6中import的循环依赖的理解">
 <meta property="og:url" content="https://functionrun.github.io/2019/06/20/ES6中import的循环依赖的理解/index.html">
-<meta property="og:site_name" content="钛">
+<meta property="og:site_name" content="钛 Ti">
 <meta property="og:description" content="ES6 循环依赖的一个例子a.js 123456import &amp;#123;bar&amp;#125; from &apos;./b.js&apos;;export function foo() &amp;#123;    bar();      console.log(&apos;执行完毕&apos;);&amp;#125;foo(); b.js 123456import &amp;#123;foo&amp;#125; from &apos;./a.js&apos;;export functio">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-25T09:17:35.080Z">
+<meta property="og:updated_time" content="2019-06-25T12:47:53.625Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ES6中import的循环依赖的理解">
 <meta name="twitter:description" content="ES6 循环依赖的一个例子a.js 123456import &amp;#123;bar&amp;#125; from &apos;./b.js&apos;;export function foo() &amp;#123;    bar();      console.log(&apos;执行完毕&apos;);&amp;#125;foo(); b.js 123456import &amp;#123;foo&amp;#125; from &apos;./a.js&apos;;export functio">
@@ -123,7 +123,7 @@
   };
 </script>
 
-  <title>ES6中import的循环依赖的理解 | 钛</title>
+  <title>ES6中import的循环依赖的理解 | 钛 Ti</title>
   
 
 
@@ -182,7 +182,7 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">钛</span>
+        <span class="site-title">钛 Ti</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -371,6 +371,8 @@
   
 
   
+    <div class="reading-progress-bar"></div>
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
@@ -386,7 +388,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="钛">
+      <meta itemprop="name" content="钛 Ti">
     </span>
 
     
@@ -424,22 +426,6 @@
             
 
             
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-25 17:17:35" itemprop="dateModified" datetime="2019-06-25T17:17:35+08:00">2019-06-25</time>
-              
-            
           </span>
 
           
@@ -470,6 +456,13 @@
           
           
 
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
           
 
           
@@ -522,7 +515,7 @@
 
 
 <h2 id="ES6模块的特性"><a href="#ES6模块的特性" class="headerlink" title="ES6模块的特性 "></a>ES6模块的特性 </h2><ol>
-<li>import 命令会被javascript 引擎静态分析, 又闲鱼模块内的其它内容执行</li>
+<li>import 命令会被javascript 引擎静态分析, 先于模块内的其它内容执行</li>
 <li>export 命令会有变量声明提前的效果</li>
 </ol>
 <p>a.js</p>
@@ -823,6 +816,32 @@
 
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
 
 
 
@@ -880,6 +899,8 @@
 
 
 
+  
+
 
 
   
@@ -890,6 +911,9 @@
 
   
   <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/reading_progress/reading_progress.js"></script>
 
 
   
