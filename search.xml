@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[mobx 初尝试]]></title>
+    <url>%2F2019%2F07%2F01%2Fmobx-%E5%88%9D%E5%B0%9D%E8%AF%95%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
     <title><![CDATA[Array.flat原理实现]]></title>
     <url>%2F2019%2F06%2F25%2FArray-flat%E5%8E%9F%E7%90%86%E5%AE%9E%E7%8E%B0%2F</url>
     <content type="text"><![CDATA[Array.flat实现1// input [1, 2, [3, 4, [5, 6, 7]], 8] -&gt; output [1, 2, 3, 4, 5, 6, 7, 8]; 1234567891011121314151617181920interface Array&lt;T&gt; &#123; flatInfinity(): T[]; flat(n?: number): T[];&#125;Array.prototype.flatInfinity = function() &#123; const stack = [...this]; const value = []; while (stack.length) &#123; const next = stack.pop(); if (Array.isArray(next)) &#123; stack.push(...next); &#125; else &#123; value.push(next); &#125; &#125; return value.reverse();&#125;;Array.prototype.flat = function(n = 1) &#123; return baseFlatten(this, n, []);&#125;; baseFlatternlodash.js12345678910111213141516171819202122232425/** * 将数组拉平 * @param &#123;Array&#125; array 需要拉平数组 * @param &#123;number&#125; depth 数组的深度 * @param &#123;Array&#125; result 初始化将要返回的数组 * @returns &#123;Array&#125; 返回扁平后的数组 */function baseFlatten(array, depth, result) &#123; result || (result = []); if (array == null) &#123; return result; &#125; for (const value of array) &#123; if (depth &gt; 0 &amp;&amp; Array.isArray(value)) &#123; if (depth &gt; 1) &#123; baseFlatten(value, depth - 1, result); &#125; else &#123; result.push(...value); &#125; &#125; else &#123; result[result.length] = value; &#125; &#125; return result;&#125;]]></content>
@@ -47,7 +52,7 @@
   <entry>
     <title><![CDATA[React Hooks]]></title>
     <url>%2F2019%2F06%2F18%2FReact-Hooks%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[React Hook 暴露的API12345678910111213import &#123; useCallback, useContext, useEffect, useImperativeHandle, useDebugValue, useLayoutEffect, useMemo, useReducer, useRef, useState, useEvent,&#125; from './ReactHooks';]]></content>
       <categories>
         <category>Coding</category>
       </categories>
